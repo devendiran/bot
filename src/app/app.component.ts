@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { SpeechRecognitionService } from './chat/speech-recognition.service';
+import { throttle } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-root',
@@ -12,11 +14,11 @@ export class AppComponent {
   speechData: String;
   constructor(private speechRecognitionService: SpeechRecognitionService) {
     this.showSearchButton = true;
-    this.speechData = "";
+    this.speechData = '';
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit() {
-    console.log("hello");
     this.activateSpeechSearchMovie();
   }
 
@@ -28,25 +30,20 @@ export class AppComponent {
     this.showSearchButton = false;
 
     this.speechRecognitionService.record()
+      .throttle(ev => Observable.interval(5000))
       .subscribe(
-      //listener
-      (value) => {
-        this.speechData = value;
-        console.log(value);
-      },
-      //errror
-      (err) => {
-        console.log(err);
-        if (err.error == "no-speech") {
-          console.log("--restatring service--");
+        (value) => {
+          this.speechData = value;
+        },
+        (err) => {
+          console.log(err);
+          if (err.error === 'no-speech') {
+            this.activateSpeechSearchMovie();
+          }
+        },
+        () => {
+          this.showSearchButton = true;
           this.activateSpeechSearchMovie();
-        }
-      },
-      //completion
-      () => {
-        this.showSearchButton = true;
-        console.log("--complete--");
-        this.activateSpeechSearchMovie();
-      });
+        });
   }
 }

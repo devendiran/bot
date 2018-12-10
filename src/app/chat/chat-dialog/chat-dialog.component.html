@@ -1,11 +1,11 @@
-<h1>Angular Bot</h1>
-
-
+<h1>Chat Bot</h1>
+<chat-option #chatOption *ngFor="let option of options" [option]="option">
+</chat-option>
 
 <ng-container *ngFor="let message of messages | async">
 
   <div class="message" [ngClass]="{ 'from': message.sentBy === 'bot',
-                                    'to':   message.sentBy === 'user' }"  [innerHTML]="message.content | keepHtml">
+                                    'to':   message.sentBy === 'user' }" [innerHTML]="message.content | keepHtml">
   </div>
 
 </ng-container>
@@ -14,7 +14,7 @@
 <label for="nameField">Your Message</label>
 
 
-<input [(ngModel)]="formValue" (keyup.enter)="sendMessage()" type="text"><br>
+<input [(ngModel)]="formValue" (keyup.enter)="sendMessage()" type="text">
+<br>
 
 <button (click)="sendMessage()">Send</button>
-

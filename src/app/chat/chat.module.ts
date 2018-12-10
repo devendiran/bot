@@ -6,6 +6,7 @@ import { ChatDialogComponent } from './chat-dialog/chat-dialog.component';
 import { ChatService } from './chat.service';
 import { SpeechRecognitionService } from './speech-recognition.service';
 import { FormsModule } from '@angular/forms';
+import { OptionComponent } from './chat-dialog/options.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { FormsModule } from '@angular/forms';
   ],
   declarations: [
     ChatDialogComponent,
-    EscapeHtmlPipe
+    EscapeHtmlPipe,
+    OptionComponent
   ],
   exports: [ ChatDialogComponent ],
   providers: [ChatService, SpeechRecognitionService]

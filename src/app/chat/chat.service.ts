@@ -24,13 +24,12 @@ export class ChatService {
   converse(msg: string) {
     const userMessage = new Message(msg, 'user');
     this.update(userMessage);
-    console.log('..........input........')
     return this.client.textRequest(msg)
       .then(res => {
         this.zone.run(() => {
           const fulfillment = res.result.fulfillment;
           const speech = res.result.fulfillment.speech;
-          let msg = new (<any>window).SpeechSynthesisUtterance(speech);
+          const msg = new (<any>window).SpeechSynthesisUtterance(speech);
           (<any>window).speechSynthesis.speak(msg);
           let botMessage = new Message(speech, 'bot');
           if (fulfillment.data) {
